@@ -1,13 +1,31 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import store from './store'
 
-import Buefy from 'buefy'
-import 'buefy/lib/buefy.css'
-
-Vue.use(Buefy)
+import {AUTH_LOGOUT} from './store/actions/auth'
 
 Vue.use(Router);
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/')
+}
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/login')
+}
+
+const logout = (to, from, next) => {
+    store.dispatch(AUTH_LOGOUT).then(() => next('/'))
+}
 
 export default new Router({
   routes: [
@@ -24,6 +42,18 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/About.vue")
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () =>
+        import(/* webpackChunkName: "login" */ "./views/Login.vue"),
+      beforeEnter: ifNotAuthenticated,
+    },
+    {
+      path: "/logout",
+      name: "logout",
+      beforeEnter: logout,
     }
   ]
 });
