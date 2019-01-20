@@ -5,10 +5,11 @@ import axios from 'axios'
 import docCookie from '@/utils/cookies'
 
 import {API_URL} from '@/env'
+import * as settings from '@/settings'
 
 
 const state = { 
-  token: docCookie.getItem('user-token') || '',
+  token: docCookie.getItem(settings.ACCESS_TOKEN_COOKIE) || '',
   status: '',
   hasLoadedOnce: false 
 }
@@ -23,9 +24,10 @@ const actions = {
       return new Promise((resolve, reject) => {
       commit(AUTH_REQUEST)
       //apiCall({url: 'auth', data: loginData, method: 'POST'})
-      axios.post(API_URL + 'rest-auth/login/',{email:email,password:password})
+      axios.post(API_URL + 'auth/login/',{email:email,password:password})
       .then(({data: resp}) => {
-        docCookie.setItem('user-token', resp.token)
+        docCookie.setItem(settings.ACCESS_TOKEN_COOKIE, resp[settings.ACCESS_TOKEN_NAME])
+        docCookie.setItem(settings.REFRESH_TOKEN_COOKIE, resp[settings.REFRESH_TOKEN_NAME])
         // Here set the header of your ajax library to the token value.
         // example with axios
         // axios.defaults.headers.common['Authorization'] = resp.token
@@ -34,7 +36,8 @@ const actions = {
       })
       .catch(err => {
         commit(AUTH_ERROR, err)
-        docCookie.removeItem('user-token')
+        docCookie.removeItem(settings.ACCESS_TOKEN_COOKIE)
+        docCookie.removeItem(settings.REFRESH_TOKEN_COOKIE)
         reject(err)
       })
     })
@@ -42,7 +45,8 @@ const actions = {
   [AUTH_LOGOUT]: ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
       commit(AUTH_LOGOUT)
-      docCookie.removeItem('user-token')
+      docCookie.removeItem(settings.ACCESS_TOKEN_COOKIE)
+      docCookie.removeItem(settings.REFRESH_TOKEN_COOKIE)
       resolve()
     })
   }
