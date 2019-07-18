@@ -1,18 +1,19 @@
-const mocks = {
-  'auth': { 'POST': { token: 'This-is-a-mocked-token' } },
-  'user/me': { 'GET': { name: 'doggo', title: 'sir' } }
-}
+import {API_URL} from '@/env'
+import axios from 'axios'
 
-const apiCall = ({url, method, ...args}) => new Promise((resolve, reject) => {
-  setTimeout(() => {
-    try {
-      resolve(mocks[url][method || 'GET'])
-      console.log(`Mocked '${url}' - ${method || 'GET'}`)
-      console.log('response: ', mocks[url][method || 'GET'])
-    } catch (err) {
-      reject(new Error(err))
-    }
-  }, 1000)
+const apiCall = (endpoint,method,data,relative=true) => new Promise((resolve, reject) => {
+  
+  let url = relative ? API_URL + endpoint : endpoint;
+  console.log(url)
+
+  axios({
+    method: method,
+    url: url,
+    data: data,
+  })
+  .then(({data: resp}) => {resolve(resp)})
+  .catch(err => {reject(err)})
+
 })
 
 export default apiCall

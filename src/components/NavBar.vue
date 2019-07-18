@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar is-transparent">
+    <nav class="navbar is-transparent has-shadow">
         <div class="navbar-brand">
             <router-link to="/" class="navbar-item immersify-brand is-size-3">
                 {{title}}
