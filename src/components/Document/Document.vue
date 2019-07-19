@@ -2,7 +2,7 @@
   <div class="content has-text-left">
 
     <p v-for="p in paragraphs">
-        <sentence v-for="sentence in p" v-bind:sentence="sentence" v-on:viewed="sentenceViewed"></sentence>
+        <sentence v-for="sentence in p" :sentence="sentence" :stats="info.stats" v-on:viewed="sentenceViewed"></sentence>
     </p>
 
   </div>
@@ -11,7 +11,7 @@
 <script>
 
 
-import Sentence from "@/components/Sentence.vue";
+import Sentence from "@/components/Document/Sentence.vue";
 import apiCall from '@/utils/api'
 
 export default {
@@ -50,7 +50,12 @@ export default {
         console.log(error)
       }).finally(() => {})
     }
-  }
+  },
+
 };
 
 </script>
+
+<style>
+
+</style>

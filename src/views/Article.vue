@@ -1,16 +1,24 @@
 <template>
 
   <section v-if="errored">
-    <p>We're sorry, we're not able to retrieve this information at the moment, please try back later</p>
+    <p>We're sorry, communication with the API failed. Please try again later.</p>
   </section>
 
-  <section v-else class="section">
+  <section v-else>
     <div v-if="loading">Loading...</div>
 
     <div v-else class="columns">
       <div class="column is-1"></div>
-      <div class="column is-6"><document v-bind:info="info"></document></div>
-      <div class="column is-4">Sidebar</div>
+      <div class="column is-6">
+        <div  class="section"></div>
+        <document v-bind:info="info"></document>
+      </div>
+      <div class="column is-4">
+        <div class="sidebar-holder">
+          <sentence-lookup v-bind:info="{id:info.id,term:null}"></sentence-lookup>
+          <dictionary></dictionary>
+        </div>
+      </div>
       <div class="column is-1"></div>
     </div>
 
@@ -19,14 +27,18 @@
 </template>
 
 <script>
-import Document from "@/components/Document.vue";
+import Document from "@/components/Document/Document.vue";
+import Dictionary from "@/components/Dictionary.vue";
+import SentenceLookup from "@/components/SentenceLookup/SentenceLookup.vue";
 
 import apiCall from '@/utils/api'
 
 export default {
     name: "Article",
     components: {
-      'document': Document,
+      document: Document,
+      dictionary: Dictionary,
+      'sentence-lookup': SentenceLookup
     },
     data () {
     
@@ -41,7 +53,7 @@ export default {
     apiCall('article/'+this.$route.params.id+'/','get').then(data => {
         this.info = data
         apiCall(this.info.sentences,'get',{},false).then(data => {this.info.sentences = data}).catch(error => {console.log(error);this.errored=true}).finally(() => this.loading -= 1)
-        apiCall(this.info.words,'get',{},false).then(data => {this.info.words = data.words}).catch(error => {console.log(error);this.errored=true}).finally(() => this.loading -= 1)
+        apiCall(this.info.words,'get',{},false).then(data => {this.info.stats = data.stats}).catch(error => {console.log(error);this.errored=true}).finally(() => this.loading -= 1)
       }).catch(error => {
         console.log(error)
         this.errored = true
@@ -51,3 +63,14 @@ export default {
 
 
 </script>
+
+<style>
+.sidebar-holder{
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  padding: 60px 20px 1px 1px;
+}
+
+</style>

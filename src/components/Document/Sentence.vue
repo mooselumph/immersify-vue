@@ -3,12 +3,12 @@
   <span v-if="sentence.category==='sentence'" class="sentence">
     <template v-for="element in sentence.elements" v-bind:element="element">
 
-      <template v-if="element.type==='text'">
-        <token v-for="token in element.tokens" v-bind:token="token"></token>
-      </template>
+      <template v-if="element.type==='text'"><!--
+        --><token v-for="token in element.tokens" :token="token" :stats="stats"></token><!--
+      --></template>
 
       <template v-else-if="element.type==='link'">
-        <token v-for="token in element.tokens" v-bind:token="token"></token><a v-bind:href="element.url">[link]</a>
+        <token v-for="token in element.tokens" :token="token" :stats="stats"></token><a v-bind:href="element.url">[link]</a>
       </template>
 
     </template>
@@ -26,14 +26,14 @@
 
 // Send message when viewed button is clicked. Listen for message in Document. Change sentence viewed status. Update encounter endpoint to allow adding all encounters up to sentence order
 
-import Token from "@/components/Token.vue";
+import Token from "@/components/Document/Token.vue";
 
 export default {
   name: "Sentence",
   components: {
       token: Token
   },
-  props: ['sentence'],
+  props: ['sentence','stats'],
   data () {
     return {
     }
@@ -41,10 +41,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
-</style>
-
-.
+.sentence{
+  line-height: 2;
+  font-size: 1.3rem;
+}
 
 </style>

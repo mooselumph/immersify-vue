@@ -4,7 +4,7 @@ import axios from 'axios'
 const apiCall = (endpoint,method,data,relative=true) => new Promise((resolve, reject) => {
   
   let url = relative ? API_URL + endpoint : endpoint;
-  console.log(url)
+  //console.log(url)
 
   axios({
     method: method,
