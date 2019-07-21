@@ -1,15 +1,6 @@
 <template>
 
-  <div v-if="sentence.category==='sentence'" class="box">
-
-    <div class="source">
-      <template v-if="sentence.article==info.id">
-        from this article
-      </template> 
-      <template v-else>
-        <a :href="articleUrl">source</a>
-      </template> 
-    </div>
+  <div v-if="sentence.category==='sentence'">
 
     <div class="sentence">
       <template v-for="element in sentence.elements" v-bind:element="element">
@@ -50,11 +41,6 @@ export default {
     return {
     }
   },
-  computed: {
-    articleUrl: function(){
-      return '?#/article/' + this.sentence.article + '/'
-    }
-  }
 };
 </script>
 
@@ -63,10 +49,6 @@ export default {
 .sentence{
   line-height: 2;
   font-size: 1.1rem;
-}
-
-.source{
-  text-decoration: underline
 }
 
 </style>

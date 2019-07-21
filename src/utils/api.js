@@ -6,10 +6,12 @@ const apiCall = (endpoint,method,data,relative=true) => new Promise((resolve, re
   let url = relative ? API_URL + endpoint : endpoint;
   //console.log(url)
 
+  var data_wrapper = method === 'post' ? 'data' : 'params'
+
   axios({
     method: method,
     url: url,
-    data: data,
+    [data_wrapper]: data,
   })
   .then(({data: resp}) => {resolve(resp)})
   .catch(err => {reject(err)})

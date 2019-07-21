@@ -1,7 +1,7 @@
 <template>
   <div class="content has-text-left">
 
-    <sentence v-for="sentence in sentences" v-bind:sentence="sentence" v-bind:info="info"></sentence>
+    <article-result v-for="article in articles" v-bind:article="article" v-bind:info="info" :key="Math.random()"></article-result>
 
   </div>
 </template>
@@ -9,17 +9,18 @@
 <script>
 
 import apiCall from '@/utils/api'
-import Sentence from "@/components/SentenceLookup/Sentence.vue";
+import ArticleResult from "@/components/SentenceLookup/ArticleResult.vue";
 
 export default {
   name: "SentenceLookup",
   components: {
-    sentence: Sentence
+    'article-result': ArticleResult
   },
   props: ['info'],
   data () {
     return {
-      sentences: null,
+      articles: null,
+      
     }
   },
   computed: {
@@ -28,10 +29,10 @@ export default {
   },
   mounted() {
     this.$root.$on('token-clicked',(lexeme) => {
-      apiCall('word/'+lexeme+'/sentences/','get').then(data => {
+      apiCall('word/'+lexeme+'/articles/','get').then(data => {
         console.log('received response')
         this.info.term = lexeme
-        this.sentences = data
+        this.articles = data.results
       }).catch(error => {
         console.log(error)
       }).finally(() => {})
