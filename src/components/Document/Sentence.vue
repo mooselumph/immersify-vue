@@ -1,23 +1,23 @@
 <template>
 
-  <span v-if="sentence.category==='sentence'" class="sentence">
-    <template v-for="element in sentence.elements" v-bind:element="element">
+  <span v-if="sentenceData.category==='sentence'" class="sentence">
+    <template v-for="element in sentenceData.elements" v-bind:element="element">
 
       <template v-if="element.type==='text'"><!--
-        --><token v-for="token in element.tokens" :token="token" :stats="stats"></token><!--
+        --><token v-for="token in element.tokens" :token="token" :wordStats="wordStats"></token><!--
       --></template>
 
       <template v-else-if="element.type==='link'">
-        <token v-for="token in element.tokens" :token="token" :stats="stats"></token><a v-bind:href="element.url">[link]</a>
+        <token v-for="token in element.tokens" :token="token" :wordStats="wordStats"></token><a v-bind:href="element.url">[link]</a>
       </template>
 
     </template>
 
-    <a v-if="!sentence.viewed" v-on:click="$emit('viewed', sentence.order)" class="has-text-grey-lighter">&#10003</a>
+    <a v-if="!sentenceData.viewed" v-on:click="$emit('viewed', sentenceData.order)" class="has-text-grey-lighter">&#10003</a>
   </span>
 
   <span v-else>
-      {{ sentence.order }}
+      {{ sentenceData.order }}
   </span>
 
 </template>
@@ -33,11 +33,11 @@ export default {
   components: {
       token: Token
   },
-  props: ['sentence','stats'],
+  props: ['sentenceData','wordStats'],
   data () {
     return {
     }
-  },
+  }
 };
 </script>
 

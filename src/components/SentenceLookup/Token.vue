@@ -13,12 +13,18 @@ import TokenBase from "@/components/TokenBase.vue";
 
 export default {
   extends: TokenBase,
-  props: ['term'],
+  props: ['searchTerm'],
   computed: {
     highlighted: function(){
-      return this.lexeme === this.term
+      return this.lexeme === this.searchTerm
     }
   },
 };
 
 </script>
+
+<style>
+  .holder{
+    /* cursor: pointer; */
+  }
+</style>

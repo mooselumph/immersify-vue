@@ -1,16 +1,16 @@
 <template>
 
-  <div v-if="sentence.category==='sentence'">
+  <div v-if="sentenceData.category==='sentence'">
 
     <div class="sentence">
-      <template v-for="element in sentence.elements" v-bind:element="element">
+      <template v-for="element in sentenceData.elements" v-bind:element="element">
 
         <template v-if="element.type==='text'">
-          <token v-for="token in element.tokens" :token="token" :stats="sentence.stats" :term="info.term"></token>
+          <token v-for="token in element.tokens" :token="token" :wordStats="sentenceData.stats" :searchTerm="searchTerm" v-on:token-clicked="tokenClicked"></token>
         </template>
 
         <template v-else-if="element.type==='link'">
-          <token v-for="token in element.tokens" :token="token" :stats="sentence.stats" :term="info.term"></token><a :href="element.url">[link]</a>
+          <token v-for="token in element.tokens" :token="token" :wordStats="sentenceData.stats" :searchTerm="searchTerm" v-on:token-clicked="tokenClicked"></token><a :href="element.url">[link]</a>
         </template>
 
       </template>
@@ -19,7 +19,7 @@
   </div>
 
   <span v-else>
-      {{ sentence.order }}
+      {{ sentenceData.order }}
   </span>
 
 </template>
@@ -32,15 +32,20 @@ import Token from "@/components/SentenceLookup/Token.vue";
 import {API_URL} from '@/env'
 
 export default {
-  name: "Sentence",
+  name: "SentenceResult",
   components: {
       token: Token
   },
-  props: ['sentence','info'],
+  props: ['sentenceData','searchTerm'],
   data () {
     return {
     }
   },
+  methods:{
+    tokenClicked: function(lexeme){
+      this.$emit('token-clicked',lexeme)
+    }
+  }
 };
 </script>
 

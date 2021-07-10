@@ -2,14 +2,15 @@
 
 export default {
   name: "Token",
-  props: ['token','stats'],
+  props: ['token','wordStats'],
   data () {
     return {
     }
   },
   methods:{
     clicked: function(){
-      this.$root.$emit('token-clicked', this.lexeme)
+      this.$root.$emit('token-clicked-global', this.lexeme)
+      this.$emit('token-clicked', this.lexeme)
     }
   },
   computed: {
@@ -29,7 +30,7 @@ export default {
       return this.parts[5] === '1'
     },
     rating: function() {
-      return this.stats[this.lexeme]
+      return this.wordStats[this.lexeme]
     },
     bar_length: function(){
       return 100*Math.exp(-this.rating/20)

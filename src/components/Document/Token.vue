@@ -19,8 +19,15 @@ export default {
       highlighted: false
     }
   },
+  methods:{
+    clicked: function(){
+      this.$root.$emit('token-clicked-global', this.lexeme)
+      this.$root.$emit('token-clicked-article', this.lexeme)
+      this.$emit('token-clicked', this.lexeme)
+    }
+  },
   mounted() {
-    this.$root.$on('token-clicked',(lexeme) => {
+    this.$root.$on('token-clicked-article',(lexeme) => {
       this.highlighted = this.lexeme && lexeme === this.lexeme
     })
   }

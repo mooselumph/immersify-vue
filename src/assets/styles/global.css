@@ -1,0 +1,72 @@
+
+.next-leave-active, .next-enter-active,.prev-leave-active, .prev-enter-active{
+  transition: all 0.5s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+  transition-property: transform, opacity;
+}
+
+.next-enter,.prev-leave-to{
+  transform: translate3d(100%, 0, 0);
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+}
+
+.next-leave-to,.prev-enter{
+  transform: translateX(-100%);
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+}
+
+.nav{
+  display:flex; 
+  align-items: stretch;
+}
+
+.nextprev-container{
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.nextprev{
+  position: relative;
+  cursor: pointer;
+  border:1px solid rgba(121, 87, 213, 0);
+}
+
+.nextprev.hide{
+  visibility: hidden;
+}
+
+.nextprev:hover{
+  border:1px solid rgba(121, 87, 213, 0.5);
+}
+
+.nextprev div{
+  text-align: center;
+  width: 20px;
+  margin: 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.next-button{
+  right: -0.7em;
+}
+
+.prev-button{
+  left: -0.7em;
+}
+
+.appear-leave-active, .appear-enter-active{
+  transition: opacity 0.3s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+}
+
+.appear-enter,.appear-leave-to{
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+}
+

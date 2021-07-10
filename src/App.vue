@@ -6,6 +6,9 @@
 </template>
 
 <script>
+
+import '@/assets/styles/global.css';
+
 // @ is an alias to /src
 import NavBar from "@/components/NavBar.vue";
 
@@ -17,8 +20,8 @@ export default {
 };
 </script>
 
-<style lang="scss">
 
+<style lang="scss">
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

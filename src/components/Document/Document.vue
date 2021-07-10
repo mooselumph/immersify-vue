@@ -2,7 +2,7 @@
   <div class="content has-text-left">
 
     <p v-for="p in paragraphs">
-        <sentence v-for="sentence in p" :sentence="sentence" :stats="info.stats" v-on:viewed="sentenceViewed"></sentence>
+        <sentence v-for="sentence in p" :sentenceData="sentence" :wordStats="articleInfo.stats" v-on:viewed="sentenceViewed"></sentence>
     </p>
 
   </div>
@@ -19,7 +19,7 @@ export default {
   components: {
       sentence: Sentence
   },
-  props: ['info'],
+  props: ['articleInfo'],
   data () {
     return {
     }
@@ -28,8 +28,8 @@ export default {
     paragraphs: function () {
       var ps = [];
       var p = [];
-      for (var i in this.info.sentences){
-        var s = this.info.sentences[i]
+      for (var i in this.articleInfo.sentences){
+        var s = this.articleInfo.sentences[i]
         if (s.category == "paragraph" && p.length > 0){
           ps.push(p);
           p = []
@@ -42,9 +42,9 @@ export default {
   },
   methods:{
     sentenceViewed: function(order){
-       apiCall('encounter/article/'+this.info.id+'/sentence/'+order+'/','post',{cumulative:true}).then(data => {
+       apiCall('encounter/article/'+this.articleInfo.id+'/sentence/'+order+'/','post',{cumulative:true}).then(data => {
         for (var i =0; i<=order; i++){
-          this.info.sentences[i].viewed = true;
+          this.articleInfo.sentences[i].viewed = true;
         }        
       }).catch(error => {
         console.log(error)
